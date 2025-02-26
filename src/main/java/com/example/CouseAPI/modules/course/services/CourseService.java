@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CourseService {
@@ -31,9 +32,9 @@ public class CourseService {
         return courses;
     }
 
-    public CourseEntity updateCourse(UpdateCourseRequestDTO updateCourseRequestDTO){
+    public CourseEntity updateCourse(UpdateCourseRequestDTO updateCourseRequestDTO, UUID id){
         var course = this.courseRepository
-                .findByNameOrId(String.valueOf(updateCourseRequestDTO.name()), updateCourseRequestDTO.id())
+                .findByNameOrId(String.valueOf(updateCourseRequestDTO.name()), id)
                 .orElseThrow(() -> new CourseNotFoundException("Curso não encontrado"));
         updateCourseRequestDTO.name().ifPresent(course::setName);
         updateCourseRequestDTO.category().ifPresent(course::setCategory);
