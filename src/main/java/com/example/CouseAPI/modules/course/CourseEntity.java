@@ -23,8 +23,11 @@ public class CourseEntity {
     private UUID id;
 
     @NotBlank()
+    @NotNull()
     private String name;
 
+    @NotNull()
+    @NotBlank()
     private String category;
 
     @NotNull()
