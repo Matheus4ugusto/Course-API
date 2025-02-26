@@ -6,6 +6,8 @@ import com.example.CouseAPI.modules.course.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CourseService {
     @Autowired
@@ -20,6 +22,11 @@ public class CourseService {
                 });
 
         return this.courseRepository.save(courseEntity);
+    }
+
+    public List<CourseEntity> getCourses(){
+        var courses = this.courseRepository.findAll();
+        return courses;
     }
 
 }
