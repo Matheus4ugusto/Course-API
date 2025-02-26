@@ -1,6 +1,7 @@
 package com.example.CouseAPI.modules.course.controllers;
 
 import com.example.CouseAPI.modules.course.CourseEntity;
+import com.example.CouseAPI.modules.course.DTO.UpdateCourseRequestDTO;
 import com.example.CouseAPI.modules.course.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,17 @@ public class CourseController {
             var result = this.courseService.getCourses();
             return ResponseEntity.status(HttpStatus.OK).body(result);
 
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<Object> update(@Valid @RequestBody UpdateCourseRequestDTO updateCourseRequestDTO){
+        try {
+            this.courseService.updateCourse(updateCourseRequestDTO);
+            var result = this.courseService.updateCourse(updateCourseRequestDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
