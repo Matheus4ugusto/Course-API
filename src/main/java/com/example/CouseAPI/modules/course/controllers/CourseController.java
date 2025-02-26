@@ -1,6 +1,7 @@
 package com.example.CouseAPI.modules.course.controllers;
 
 import com.example.CouseAPI.modules.course.CourseEntity;
+import com.example.CouseAPI.modules.course.DTO.CreateCourseRequestDTO;
 import com.example.CouseAPI.modules.course.DTO.UpdateCourseRequestDTO;
 import com.example.CouseAPI.modules.course.services.CourseService;
 import jakarta.validation.Valid;
@@ -20,9 +21,9 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping
-    public ResponseEntity<Object> create(@Valid @RequestBody CourseEntity courseEntity){
+    public ResponseEntity<Object> create(@Valid @RequestBody CreateCourseRequestDTO createCourseRequestDTO){
         try{
-            var result = this.courseService.createCourse(courseEntity);
+            var result = this.courseService.createCourse(createCourseRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(result);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

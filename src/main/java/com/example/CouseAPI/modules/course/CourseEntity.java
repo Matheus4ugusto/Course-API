@@ -1,5 +1,6 @@
 package com.example.CouseAPI.modules.course;
 
+import com.example.CouseAPI.modules.course.DTO.CreateCourseRequestDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,12 +23,8 @@ public class CourseEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank()
-    @NotNull()
     private String name;
 
-    @NotNull()
-    @NotBlank()
     private String category;
 
     @NotNull()
@@ -39,4 +36,10 @@ public class CourseEntity {
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
+    public static CourseEntity convertToEntity(CreateCourseRequestDTO createCourseRequestDTO) {
+        CourseEntity courseEntity = new CourseEntity();
+        courseEntity.setName(String.valueOf(createCourseRequestDTO.name()));
+        courseEntity.setCategory(String.valueOf(createCourseRequestDTO.category()));
+        return courseEntity;
+    }
 }
