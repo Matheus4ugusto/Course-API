@@ -52,4 +52,13 @@ public class CourseController {
         }
     }
 
+    @DeleteMapping
+    public ResponseEntity<Object> delete(@PathParam("id") UUID id){
+        try {
+            this.courseService.deleteCourse(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

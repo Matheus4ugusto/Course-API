@@ -41,4 +41,9 @@ public class CourseService {
         return this.courseRepository.save(course);
     }
 
+    public void deleteCourse(UUID id){
+        this.courseRepository.findByNameOrId("", id).orElseThrow(() -> new CourseNotFoundException("Curso não encontrado"));
+        this.courseRepository.deleteById(id);
+    }
+
 }
