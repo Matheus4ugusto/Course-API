@@ -46,4 +46,12 @@ public class CourseService {
         this.courseRepository.deleteById(id);
     }
 
+    public CourseEntity togleActive(UUID id){
+        var course = this.courseRepository
+                .findByNameOrId("", id)
+                .orElseThrow(() -> new CourseNotFoundException("Curso não encontrado"));
+        course.setActive(!course.isActive());
+        return this.courseRepository.save(course);
+    }
+
 }

@@ -61,4 +61,14 @@ public class CourseController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @PatchMapping("/{id}/active")
+    public ResponseEntity<Object> togleIsActive(@PathVariable UUID id){
+        try {
+            var result = this.courseService.togleActive(id);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
