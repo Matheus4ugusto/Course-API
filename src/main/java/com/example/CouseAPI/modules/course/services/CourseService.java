@@ -23,12 +23,6 @@ public class CourseService {
 
     public CourseEntity createCourse(CreateCourseRequestDTO createCourseRequestDTO) {
 
-        this.courseRepository
-                .findByNameOrId(createCourseRequestDTO.name().orElse(""), createCourseRequestDTO.id())
-                .ifPresent(course -> {
-                    throw new CourseFoundException("Este Curso já existe");
-                });
-
         CourseEntity courseEntity = convertToEntity(createCourseRequestDTO);
 
         createCourseRequestDTO.name().ifPresent(name -> courseEntity.setName(name.trim()));
@@ -40,6 +34,12 @@ public class CourseService {
         if (courseEntity.getCategory().isEmpty() || courseEntity.getCategory().isBlank()){
             throw new CategoryNotInformedException("A categoria do curso não foi informada");
         }
+
+        this.courseRepository
+                .findByName(courseEntity.getName())
+                .ifPresent(course -> {
+                    throw new CourseFoundException("Este Curso já existe");
+                });
 
         return this.courseRepository.save(courseEntity);
     }
@@ -53,19 +53,19 @@ public class CourseService {
         var course = this.courseRepository
                 .findByNameOrId(String.valueOf(updateCourseRequestDTO.name()), id)
                 .orElseThrow(() -> new CourseNotFoundException("Curso não encontrado"));
-        updateCourseRequestDTO.name().ifPresent(course::setName);
-        updateCourseRequestDTO.category().ifPresent(course::setCategory);
+        updateCourseRequestDTO.name().ifPresent(name -> course.setName(name.trim()));
+        updateCourseRequestDTO.category().ifPresent(category -> course.setCategory(category.trim()));
         return this.courseRepository.save(course);
     }
 
     public void deleteCourse(UUID id){
-        this.courseRepository.findByNameOrId("", id).orElseThrow(() -> new CourseNotFoundException("Curso não encontrado"));
+        this.courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException("Curso não encontrado"));
         this.courseRepository.deleteById(id);
     }
 
     public CourseEntity togleActive(UUID id){
         var course = this.courseRepository
-                .findByNameOrId("", id)
+                .findById(id)
                 .orElseThrow(() -> new CourseNotFoundException("Curso não encontrado"));
         course.setActive(!course.isActive());
         return this.courseRepository.save(course);

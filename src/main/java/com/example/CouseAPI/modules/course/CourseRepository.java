@@ -9,6 +9,8 @@ import java.util.UUID;
 public interface CourseRepository extends JpaRepository<CourseEntity, UUID> {
 
     Optional<CourseEntity> findByNameOrId(String name, UUID id);
+    Optional<CourseEntity> findByName(String name);
+    Optional<CourseEntity> findById(UUID id);
     List<CourseEntity> findAll();
     void deleteById(UUID id);
 }
